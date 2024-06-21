@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRegisterRequest;
 use App\Http\Requests\UserLoginRequest;
-use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 
@@ -54,6 +53,20 @@ class UserController extends Controller
         $user->save();
         return response()->json([
             "data" => true
+        ])->setStatusCode(200);
+    }
+
+    public function getContacts(Request $request): JsonResponse
+    {
+        // Get the authenticated user
+        $user = Auth::user();
+
+        // Eager load contacts for the user
+        $user->load('contacts');
+
+        // Return user data with contacts
+        return response()->json([
+            "data" => $user
         ])->setStatusCode(200);
     }
 }
