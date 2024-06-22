@@ -38,20 +38,6 @@ class UserController extends Controller
         $user = Auth::user();
         return new UserResource($user);
     }
-    public function update(UserUpdateRequest $request): UserResource
-    {
-        $data = $request->validated();
-        $user = Auth::user();
-        if (isset($data['password'])) {
-            $user->password = Hash::make($data['password']);
-        }
-        if (isset($data['name'])) {
-            $user->name = $data['name'];
-        }
-        $user->save();
-        return new UserResource($user);
-    }
-    
     public function logout(Request $request): JsonResponse
     {
         $user = Auth::user();
